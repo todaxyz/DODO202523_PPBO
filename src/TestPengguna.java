@@ -1,14 +1,24 @@
 
 public class TestPengguna {
     public static void main(String[] args) {
-        
-        Pengguna pekerja = new Pengguna();
+        System.out.println();
 
-        pekerja.setNama("Budi Santoso");
-        pekerja.id = 1001;
-        pekerja.umur = 25;
+        Pengguna user = new Pekerja();
+        user.setNama("Budi Santoso");
+        user.id = 1001;
+        user.umur = 25;
+        user.role = "Pekerja";
+        user.tampilkanInfo();
+        user.role();
+        System.out.println();
 
-        pekerja.tampilkanInfo();
-
+        Pengguna admin = new Admin();
+        admin.setNama("Adminn");
+        admin.id = 1002;
+        admin.umur = 30;
+        admin.role = "Admin";
+        admin.tampilkanInfo();
+        admin.role();
+        System.out.println();
     }
 }
