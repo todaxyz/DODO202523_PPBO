@@ -1,0 +1,78 @@
+<?php
+
+class DompetDigital {
+    // 1. Encapsulation: Properti dibuat private
+    private $pemilik;
+    private $saldo;
+
+    // 2. Complete the Constructor
+    public function __construct($nama, $DepositoAwal) {
+        $this->pemilik = $nama;
+        
+        // Add validation: initial balance cannot be negative
+        if ($DepositoAwal < 0) {
+            $this->saldo = 0;
+            echo "Saldo awal tidak boleh kosong. Disetel ke 0.\n";
+        } else {
+            $this->saldo = $DepositoAwal;
+        }
+    }
+
+    // 2. Method to view balance (Getter)
+    public function getSaldo() {
+        return "IDR " . number_format($this->saldo, 0, ',', '.');
+    }
+
+    // 3. Logic: Deposit
+    public function deposit($amount) {
+        if ($amount > 0) {
+            $this->saldo += $amount;
+            return true;
+        }
+        return false;
+    }
+
+    // 4. Logic: Withdraw
+    public function ambil($amount) {
+        if ($amount > 0 && $amount <= $this->saldo) {
+            $this->saldo -= $amount;
+            return true;
+        }
+        return false;
+    }
+
+    // 5. Live Coding Activity: Transfer feature
+    public function transfer($amount, DompetDigital $targetWallet) {
+        if ($this->ambil($amount)) {
+            $targetWallet->deposit($amount);
+            echo "Transfer berhasil\n";
+            return true;
+        }
+        echo "Transfer gagal. Saldo tidak mencukupi.\n";
+        return false;
+    }
+}
+
+// --- TESTING (Live Coding) ---
+$Dompet = new DompetDigital("Pak Joko", 50000);
+echo "Saldo sekarang: " . $Dompet->getSaldo() . "\n";
+
+$Dompet->deposit(20000);
+echo "Saldo setelah deposit: " . $Dompet->getSaldo() . "\n";
+
+// Menguji withdraw yang gagal
+if (!$Dompet->ambil(100000)) {
+    echo "Transaksi gagal. Saldo tidak mencukupi.\n";
+}
+
+// Menguji fitur transfer
+echo "\n--- Tes Transfer ---\n";
+$bobWallet = new DompetDigital("Pak Budi", 10000);
+echo "Saldo Pak Budi: " . $bobWallet->getSaldo() . "\n";
+
+$Dompet->transfer(15000, $bobWallet);
+
+echo "Saldo Pak Joko Setelah Transfer: " . $Dompet->getSaldo() . "\n";
+echo "Saldo Pak Budi Setelah Transfer: " . $bobWallet->getSaldo() . "\n";
+
+?>
